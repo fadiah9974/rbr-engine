@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "../styles/dashboard.css";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.1), transparent 28rem),
+    linear-gradient(180deg, #f8fbff 0%, #f5f7fb 100%);
+  color: #0f172a;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: #c7d2fe;
+  color: #111827;
+}

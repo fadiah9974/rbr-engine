@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id_user       Int      @id @default(autoincrement())
+  username      String   @unique
+  password      String
+  nama_lengkap  String
+  role          Role     @default(PENGGUNA)
+  email         String   @unique
+  status        Boolean  @default(true)
+  id_organisasi Int?
+
+  organisasi    Organisasi? @relation(fields: [id_organisasi], references: [id_organisasi], onDelete: SetNull)
+  cases         Case[]
+
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  @@index([id_organisasi])
+  @@map("user")
+}
+
+model Variabel {
+  id_variabel     Int          @id @default(autoincrement())
+  nama_variabel   String
+  tipe_variabel   VariableType
+  deskripsi       String?
+  id_organisasi   Int?
+
+  organisasi      Organisasi?  @relation(fields: [id_organisasi], references: [id_organisasi], onDelete: SetNull)
+  rule_details    RuleDetail[]
+  case_answers    CaseAnswer[]
+
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+
+  @@unique([id_organisasi, nama_variabel])
+  @@index([id_organisasi])
+  @@map("variabel")
+}
+
+model Kategori {
+  id_kategori     Int          @id @default(autoincrement())
+  nama_kategori   String
+  id_organisasi   Int?
+
+  organisasi      Organisasi?  @relation(fields: [id_organisasi], references: [id_organisasi], onDelete: SetNull)
+  rules           Rule[]
+  cases           Case[]
+  case_results    CaseResult[]
+
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt
+
+  @@unique([id_organisasi, nama_kategori])
+  @@index([id_organisasi])
+  @@map("kategori")
+}
+
+model Rule {
+  id_rule       Int          @id @default(autoincrement())
+  id_kategori   Int
+  id_organisasi Int?
+  rekomendasi   String?
+
+  organisasi    Organisasi?  @relation(fields: [id_organisasi], references: [id_organisasi], onDelete: SetNull)
+  kategori      Kategori     @relation(fields: [id_kategori], references: [id_kategori], onDelete: Cascade)
+  details       RuleDetail[]
+  cases         Case[]
+  case_results  CaseResult[]
+
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+
+  @@index([id_kategori])
+  @@index([id_organisasi])
+  @@map("rule")
+}
+
+model RuleDetail {
+  id_rule_detail Int          @id @default(autoincrement())
+  id_rule        Int
+  id_variabel    Int
+  operator       RuleOperator
+  nilai          String
+
+  rule           Rule         @relation(fields: [id_rule], references: [id_rule], onDelete: Cascade)
+  variabel       Variabel     @relation(fields: [id_variabel], references: [id_variabel], onDelete: Restrict)
+
+  created_at     DateTime     @default(now())
+  updated_at     DateTime     @updatedAt
+
+  @@index([id_rule])
+  @@index([id_variabel])
+  @@map("ruledetail")
+}
+
+model Organisasi {
+  id_organisasi   Int        @id @default(autoincrement())
+  instansi        String
+  tipe            String
+  alamat          String
+
+  users           User[]
+  variabels       Variabel[]
+  kategoris       Kategori[]
+  rules           Rule[]
+  cases           Case[]
+
+  created_at      DateTime   @default(now())
+  updated_at      DateTime   @updatedAt
+
+  @@map("organisasi")
+}
+
+model Case {
+  id_case       Int          @id @default(autoincrement())
+  id_user       Int
+  id_organisasi Int?
+  id_rule       Int?
+  id_kategori   Int?
+  nama_asesi    String
+  rekomendasi   String?
+
+  user          User         @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  organisasi    Organisasi?  @relation(fields: [id_organisasi], references: [id_organisasi], onDelete: SetNull)
+  rule          Rule?        @relation(fields: [id_rule], references: [id_rule], onDelete: SetNull)
+  kategori      Kategori?    @relation(fields: [id_kategori], references: [id_kategori], onDelete: SetNull)
+  answers       CaseAnswer[]
+  results       CaseResult[]
+
+  created_at    DateTime     @default(now())
+  updated_at    DateTime     @updatedAt
+
+  @@index([id_user])
+  @@index([id_organisasi])
+  @@index([id_rule])
+  @@index([id_kategori])
+  @@map("case")
+}
+
+model CaseAnswer {
+  id_case_answer Int      @id @default(autoincrement())
+  id_case        Int
+  id_variabel    Int
+  nilai          String
+
+  case           Case     @relation(fields: [id_case], references: [id_case], onDelete: Cascade)
+  variabel       Variabel @relation(fields: [id_variabel], references: [id_variabel], onDelete: Restrict)
+
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@index([id_case])
+  @@index([id_variabel])
+  @@map("caseanswer")
+}
+
+model CaseResult {
+  id_case_result Int       @id @default(autoincrement())
+  id_case        Int
+  id_rule        Int?
+  id_kategori    Int?
+  rekomendasi    String?
+
+  case           Case      @relation(fields: [id_case], references: [id_case], onDelete: Cascade)
+  rule           Rule?     @relation(fields: [id_rule], references: [id_rule], onDelete: SetNull)
+  kategori       Kategori? @relation(fields: [id_kategori], references: [id_kategori], onDelete: SetNull)
+
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  @@index([id_case])
+  @@index([id_rule])
+  @@index([id_kategori])
+  @@map("caseresult")
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  PENGGUNA
+
+  @@map("user_role_enum")
+}
+
+enum VariableType {
+  boolean
+  number
+
+  @@map("variabel_tipe_variabel_enum")
+}
+
+enum RuleOperator {
+  equal
+  less_than
+  greater_than
+  less_than_equal
+  greater_than_equal
+
+  @@map("ruledetail_operator_enum")
+}
