@@ -16,16 +16,16 @@ const ruleRoutes = require("./routes/ruleRoutes");
 const caseRoutes = require("./routes/caseRoutes");
 
 const app = express();
-
 /**
  * CORS harus diletakkan sebelum semua route API.
  * Frontend Vercel kamu sekarang berjalan di:
  * https://web-rbr.vercel.app
  */
 const allowedOrigins = [
+  process.env.URL_FRONTEND,
   process.env.FRONTEND_URL,
-  "https://Localhost:3000",
-];
+  "http://localhost:3000",
+].filter(Boolean);
 
 const corsOptions = {
   origin: function (origin, callback) {
