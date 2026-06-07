@@ -1,4 +1,6 @@
 const express = require("express");
+const dotenv = require("dotenv");
+
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -21,10 +23,8 @@ const app = express();
  * https://web-rbr.vercel.app
  */
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "https://web-rbr.vercel.app",
-  "https://rbr-engine.vercel.app",
+  process.env.FRONTEND_URL,
+  "https://Localhost:3000",
 ];
 
 const corsOptions = {
