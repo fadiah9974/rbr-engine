@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Building2, FileSpreadsheet, FolderTree, ListChecks, ScrollText, Users } from "lucide-react";
+import { Building2, Database, FileSpreadsheet, FolderTree, ListChecks, ScrollText, Users } from "lucide-react";
 import { StatsCard } from "@/components/dashboard/StatsCard";
 import { AppShell } from "@/components/layout/AppShell";
 import { Button } from "@/components/ui/Button";
@@ -216,6 +216,11 @@ export default function DashboardPage() {
                     Kelola Organisasi
                   </Button>
                 </Link>
+                <Link href="/database">
+                  <Button type="button" variant="secondary">
+                    Database Manager
+                  </Button>
+                </Link>
               </>
             )}
             {isPengguna && (
@@ -289,6 +294,22 @@ export default function DashboardPage() {
 
         {isSuperAdmin && (
           <div className="grid gap-4 lg:grid-cols-2">
+            <Card className="lg:col-span-2">
+              <CardHeader
+                title="Database Manager"
+                description="Akses cepat CRUD data sistem untuk super admin."
+                action={
+                  <Link href="/database">
+                    <Button type="button">
+                      <Database className="mr-2 h-4 w-4" />
+                      Buka Database
+                    </Button>
+                  </Link>
+                }
+                className="items-center gap-4"
+              />
+            </Card>
+
             <Card>
               <CardHeader
                 title="Pengguna Terbaru"

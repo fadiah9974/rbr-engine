@@ -53,8 +53,12 @@ export const Th = ({ children, className = '' }: { children: React.ReactNode, cl
   </th>
 );
 
-export const Td = ({ children, className = '' }: { children: React.ReactNode, className?: string }) => (
-  <td className={`px-4 py-4 whitespace-nowrap ${className}`}>
+export const Td = ({
+  children,
+  className = '',
+  ...props
+}: React.TdHTMLAttributes<HTMLTableCellElement>) => (
+  <td className={`px-4 py-4 whitespace-nowrap ${className}`} {...props}>
     {children}
   </td>
 );

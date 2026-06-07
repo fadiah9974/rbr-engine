@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Building2,
+  Database,
   FileSpreadsheet,
   FolderTree,
   LayoutDashboard,
@@ -26,6 +27,7 @@ const menus: {
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", roles: ["SUPER_ADMIN", "ADMIN", "PENGGUNA"] },
   { href: "/users", icon: Users, label: "Users", roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/organizations", icon: Building2, label: "Organisasi", roles: ["SUPER_ADMIN"] },
+  { href: "/database", icon: Database, label: "Database", roles: ["SUPER_ADMIN"] },
   { href: "/variables", icon: ListChecks, label: "Variables", roles: ["ADMIN"] },
   { href: "/categories", icon: FolderTree, label: "Categories", roles: ["ADMIN"] },
   { href: "/rules", icon: ScrollText, label: "Rules", roles: ["ADMIN"] },

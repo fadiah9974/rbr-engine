@@ -14,6 +14,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const organizationRoutes = require("./routes/organizationRoutes");
 const ruleRoutes = require("./routes/ruleRoutes");
 const caseRoutes = require("./routes/caseRoutes");
+const databaseRoutes = require("./routes/databaseRoutes");
 
 const app = express();
 /**
@@ -75,5 +76,6 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/rules", ruleRoutes);
 app.use("/api/cases", caseRoutes);
 app.use("/api/organizations", organizationRoutes);
+app.use("/api/database", databaseRoutes);
 
 module.exports = app;
