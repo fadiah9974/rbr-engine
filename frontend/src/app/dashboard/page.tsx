@@ -16,7 +16,7 @@ import type { User } from "@/services/authService";
 import { getUsers } from "@/services/userService";
 import { getVariables } from "@/services/variableService";
 
-const logoSrc = "/logo-rbr-engine-light.png";
+const logoSrc = "/Logo_RBR_Engine.png";
 
 function formatDate(value: string) {
   return new Intl.DateTimeFormat("id-ID", {
@@ -108,11 +108,11 @@ export default function DashboardPage() {
   return (
     <AppShell>
       <div className="grid gap-6">
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-4">
           <img
             src={logoSrc}
             alt="RBR Engine logo"
-            className="h-12 w-12 shrink-0 object-contain"
+            className="h-16 w-16 shrink-0 object-contain scale-[1.45] [filter:drop-shadow(0_8px_14px_rgba(15,23,42,0.12))]"
           />
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-slate-900">

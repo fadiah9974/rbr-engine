@@ -28,11 +28,11 @@ export function Navbar() {
   return (
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200/80 bg-white/90 px-4 py-4 shadow-[0_1px_18px_rgba(15,23,42,0.04)] backdrop-blur sm:px-6 lg:px-8">
       <div className="flex min-w-0 items-center gap-4">
-        <div className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-xl">
+        <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-xl">
           <img
             src={logoSrc}
             alt="RBR Engine logo"
-            className="h-full w-full object-contain [filter:drop-shadow(0_8px_14px_rgba(15,23,42,0.16))]"
+            className="h-full w-full scale-[1.55] object-contain [filter:drop-shadow(0_8px_14px_rgba(15,23,42,0.16))]"
           />
         </div>
         <div className="min-w-0">
