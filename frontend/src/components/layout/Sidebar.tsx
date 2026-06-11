@@ -16,7 +16,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import type { Role } from "@/services/authService";
 
-const logoSrc = "/logo-rbr-engine-transparent.png";
+const logoSrc = "/Logo_RBR_Engine.png";
 
 const menus: {
   href: string;

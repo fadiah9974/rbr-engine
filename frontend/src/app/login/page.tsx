@@ -9,7 +9,7 @@ import { getErrorMessage } from "@/lib/helper";
 import { getRegisterOrganizations } from "@/services/authService";
 import type { Organization } from "@/services/organizationService";
 
-const logoSrc = "/logo-rbr-engine-transparent.png";
+const logoSrc = "/Logo_RBR_Engine.png";
 
 export default function LoginPage() {
   const router = useRouter();

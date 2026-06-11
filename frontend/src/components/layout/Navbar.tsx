@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { getRoleLabel } from "@/lib/role";
 
-const logoSrc = "/logo-rbr-engine-light.png";
+const logoSrc = "/Logo_RBR_Engine.png";
 
 const pageTitles: Record<string, string> = {
   "/cases": "Cases",
