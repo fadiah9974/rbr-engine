@@ -42,13 +42,13 @@ export function Sidebar() {
 
   return (
     <aside className="hidden min-h-screen w-64 shrink-0 border-r border-teal-400/10 bg-[linear-gradient(165deg,#020617_0%,#0f172a_52%,#073b3a_100%)] p-4 text-white shadow-[12px_0_36px_rgba(2,6,23,0.22)] lg:flex lg:flex-col">
-      <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-[0_18px_44px_rgba(2,6,23,0.22)] backdrop-blur">
-        <div className="flex items-center gap-3">
-          <div className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl">
+      <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.04] p-4 shadow-[0_18px_44px_rgba(2,6,23,0.22)] backdrop-blur">
+        <div className="flex items-center gap-4">
+          <div className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-xl">
             <img
               src={logoSrc}
               alt="RBR Engine logo"
-              className="h-full w-full object-contain [filter:drop-shadow(0_8px_14px_rgba(2,6,23,0.35))]"
+              className="h-full w-full object-contain [filter:drop-shadow(0_10px_18px_rgba(2,6,23,0.35))]"
             />
           </div>
           <div className="min-w-0">

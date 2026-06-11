@@ -81,11 +81,11 @@ export default function LoginPage() {
           }}
         />
         <div className="relative z-10">
-          <div className="mb-6 w-36 max-w-full">
+          <div className="mb-8 w-56 max-w-full">
             <img
               src={logoSrc}
               alt="RBR Engine logo"
-              className="h-auto w-full object-contain [filter:drop-shadow(0_10px_18px_rgba(2,6,23,0.28))]"
+              className="h-auto w-full object-contain [filter:drop-shadow(0_12px_22px_rgba(2,6,23,0.28))]"
             />
           </div>
           <h1 className="text-4xl font-bold">RBR Engine</h1>
