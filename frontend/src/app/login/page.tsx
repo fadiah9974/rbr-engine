@@ -87,11 +87,11 @@ export default function LoginPage() {
           <img
             src={logoSrc}
             alt="RBR Engine logo"
-            className="h-auto w-72 object-contain [filter:drop-shadow(0_18px_28px_rgba(2,6,23,0.28))]"
+            className="h-auto w-72 translate-y-10 object-contain [filter:drop-shadow(0_18px_28px_rgba(2,6,23,0.28))]"
           />
 
-          <div className="mt-4 flex max-w-xl flex-col items-center text-center">
-            <div className="mb-5 h-1 w-24 rounded-full bg-teal-100/80" />
+          <div className="mt-0 flex max-w-xl flex-col items-center text-center">
+            <div className="mb-4 h-1 w-24 rounded-full bg-teal-100/80" />
             <h1 className="bg-gradient-to-r from-white via-teal-100 to-white bg-clip-text pb-2 font-serif text-7xl font-black italic leading-[1.08] tracking-normal text-transparent drop-shadow-[0_10px_24px_rgba(2,6,23,0.2)]">
               RBR Engine
             </h1>
