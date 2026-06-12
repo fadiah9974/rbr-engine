@@ -90,9 +90,9 @@ export default function LoginPage() {
             className="h-auto w-72 object-contain [filter:drop-shadow(0_18px_28px_rgba(2,6,23,0.28))]"
           />
 
-          <div className="mt-10 flex max-w-xl flex-col items-center text-center">
-            <div className="mb-6 h-1 w-24 rounded-full bg-teal-100/80" />
-            <h1 className="bg-gradient-to-r from-white via-teal-100 to-white bg-clip-text font-serif text-7xl font-black italic leading-none tracking-normal text-transparent drop-shadow-[0_10px_24px_rgba(2,6,23,0.2)]">
+          <div className="mt-4 flex max-w-xl flex-col items-center text-center">
+            <div className="mb-5 h-1 w-24 rounded-full bg-teal-100/80" />
+            <h1 className="bg-gradient-to-r from-white via-teal-100 to-white bg-clip-text pb-2 font-serif text-7xl font-black italic leading-[1.08] tracking-normal text-transparent drop-shadow-[0_10px_24px_rgba(2,6,23,0.2)]">
               RBR Engine
             </h1>
             <p className="mt-5 max-w-lg bg-gradient-to-r from-teal-100 via-white to-teal-100 bg-clip-text text-xl font-semibold leading-8 text-transparent">
