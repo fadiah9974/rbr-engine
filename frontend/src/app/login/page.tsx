@@ -83,28 +83,28 @@ export default function LoginPage() {
         />
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/10 to-transparent" />
         <div className="absolute inset-y-12 right-0 w-px bg-white/10" />
-        <div className="relative z-10 flex flex-1 flex-col justify-between">
-          <div className="flex justify-center pt-10">
-            <div className="grid h-52 w-52 place-items-center overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.06] shadow-[0_28px_80px_rgba(2,6,23,0.25)] backdrop-blur">
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+          <div className="grid h-56 w-56 place-items-center overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.06] shadow-[0_28px_80px_rgba(2,6,23,0.25)] backdrop-blur">
               <img
                 src={logoSrc}
                 alt="RBR Engine logo"
-                className="h-full w-full scale-[1.55] object-contain [filter:drop-shadow(0_16px_26px_rgba(2,6,23,0.3))]"
+                className="h-full w-full scale-[1.52] object-contain [filter:drop-shadow(0_16px_26px_rgba(2,6,23,0.3))]"
               />
-            </div>
           </div>
 
-          <div className="max-w-xl pb-8">
-            <div className="mb-6 h-1 w-20 rounded-full bg-teal-100/80" />
-            <h1 className="text-6xl font-bold leading-none tracking-tight">RBR Engine</h1>
-            <p className="mt-4 max-w-lg text-xl font-medium leading-8 text-teal-100">
+          <div className="mt-10 flex max-w-xl flex-col items-center text-center">
+            <div className="mb-6 h-1 w-24 rounded-full bg-teal-100/80" />
+            <h1 className="font-sans text-6xl font-black leading-none tracking-normal text-white">
+              RBR Engine
+            </h1>
+            <p className="mt-5 max-w-lg text-xl font-semibold leading-8 text-teal-100">
               Sistem konsultasi dan asesmen berbasis aturan
             </p>
           </div>
 
-          <div className="grid gap-4 pb-2">
-            <div className="max-w-lg rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-[0_22px_60px_rgba(2,6,23,0.18)] backdrop-blur">
-              <p className="text-sm leading-6 text-teal-100/90">
+          <div className="mt-12 w-full max-w-lg">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 text-center shadow-[0_22px_60px_rgba(2,6,23,0.18)] backdrop-blur">
+              <p className="text-sm font-medium leading-6 text-teal-100/90">
                 Keputusan asesmen tetap terstruktur, konsisten, dan terhubung langsung
                 dengan data rule engine.
               </p>
