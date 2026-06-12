@@ -84,20 +84,20 @@ export default function LoginPage() {
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/10 to-transparent" />
         <div className="absolute inset-y-12 right-0 w-px bg-white/10" />
         <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
-          <div className="grid h-56 w-56 place-items-center overflow-hidden rounded-[30px] border border-white/10 bg-white/[0.06] shadow-[0_28px_80px_rgba(2,6,23,0.25)] backdrop-blur">
+          <div className="grid h-48 w-72 place-items-center overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.06] shadow-[0_28px_80px_rgba(2,6,23,0.25)] backdrop-blur">
               <img
                 src={logoSrc}
                 alt="RBR Engine logo"
-                className="h-full w-full scale-[1.52] object-contain [filter:drop-shadow(0_16px_26px_rgba(2,6,23,0.3))]"
+                className="h-full w-full scale-[1.28] object-contain [filter:drop-shadow(0_16px_26px_rgba(2,6,23,0.3))]"
               />
           </div>
 
           <div className="mt-10 flex max-w-xl flex-col items-center text-center">
             <div className="mb-6 h-1 w-24 rounded-full bg-teal-100/80" />
-            <h1 className="font-sans text-6xl font-black leading-none tracking-normal text-white">
+            <h1 className="bg-gradient-to-r from-white via-teal-100 to-white bg-clip-text font-['Trebuchet_MS'] text-6xl font-black leading-none tracking-normal text-transparent drop-shadow-[0_10px_24px_rgba(2,6,23,0.2)]">
               RBR Engine
             </h1>
-            <p className="mt-5 max-w-lg text-xl font-semibold leading-8 text-teal-100">
+            <p className="mt-5 max-w-lg bg-gradient-to-r from-teal-100 via-white to-teal-100 bg-clip-text text-xl font-bold leading-8 text-transparent">
               Sistem konsultasi dan asesmen berbasis aturan
             </p>
           </div>
