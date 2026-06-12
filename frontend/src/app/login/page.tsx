@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input, Select } from "@/components/ui/Input";
 import { useAuth } from "@/hooks/useAuth";
@@ -71,8 +72,8 @@ export default function LoginPage() {
   const isLogin = mode === "login";
 
   return (
-    <main className="min-h-screen bg-slate-50 lg:flex">
-      <section className="relative hidden overflow-hidden bg-teal-900 p-12 text-white lg:flex lg:w-1/2 lg:flex-col lg:justify-between">
+    <main className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-[1.03fr_1fr]">
+      <section className="relative hidden min-h-screen overflow-hidden bg-teal-900 p-10 text-white lg:flex lg:flex-col">
         <div
           className="absolute inset-0 opacity-10"
           style={{
@@ -80,123 +81,181 @@ export default function LoginPage() {
             backgroundSize: "32px 32px",
           }}
         />
-        <div className="relative z-10">
-          <div className="mb-8 w-64 max-w-full overflow-hidden">
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/10 to-transparent" />
+        <div className="relative z-10 flex flex-1 flex-col justify-between">
+          <div className="flex justify-center pt-8">
+            <div className="grid h-40 w-40 place-items-center overflow-hidden rounded-2xl bg-white/5 shadow-[0_24px_70px_rgba(2,6,23,0.22)]">
+              <img
+                src={logoSrc}
+                alt="RBR Engine logo"
+                className="h-full w-full scale-[1.5] object-contain [filter:drop-shadow(0_14px_24px_rgba(2,6,23,0.28))]"
+              />
+            </div>
+          </div>
+
+          <div className="max-w-xl pb-10">
+            <div className="mb-8 w-64 max-w-full overflow-hidden">
             <img
               src={logoSrc}
               alt="RBR Engine logo"
               className="h-auto w-full scale-[1.25] object-contain [filter:drop-shadow(0_12px_22px_rgba(2,6,23,0.28))]"
             />
           </div>
-          <h1 className="text-4xl font-bold">RBR Engine</h1>
-          <p className="mt-3 text-lg text-teal-100">
-            Sistem konsultasi dan asesmen berbasis aturan
-          </p>
-        </div>
-        <p className="relative z-10 max-w-md text-sm leading-6 text-teal-100/80">
-          Keputusan asesmen tetap terstruktur, konsisten, dan terhubung langsung
-          dengan data rule engine.
-        </p>
-      </section>
-
-      <section className="flex min-h-screen w-full items-center justify-center p-6 sm:p-12 lg:w-1/2">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm lg:border-none lg:bg-transparent lg:shadow-none">
-          <div className="mb-8 text-center lg:text-left">
-            <h2 className="text-2xl font-bold tracking-tight text-slate-900">
-              {isLogin ? "Masuk ke Akun" : "Buat Akun Baru"}
-            </h2>
-            <p className="mt-2 text-sm text-slate-500">
-              {isLogin
-                ? "Gunakan kredensial yang terdaftar di Sistem."
-                : "Lengkapi data pengguna untuk registrasi."}
+            <h1 className="text-5xl font-bold leading-tight tracking-tight">RBR Engine</h1>
+            <p className="mt-4 max-w-lg text-xl font-medium leading-8 text-teal-100">
+              Sistem konsultasi dan asesmen berbasis aturan
             </p>
           </div>
 
-          {message && (
-            <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-              {message}
+          <div className="grid gap-4 pb-2">
+            <div className="max-w-lg rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-[0_22px_60px_rgba(2,6,23,0.18)] backdrop-blur">
+              <p className="text-sm leading-6 text-teal-100/90">
+                Keputusan asesmen tetap terstruktur, konsisten, dan terhubung langsung
+                dengan data rule engine.
+              </p>
             </div>
-          )}
+          </div>
+        </div>
+      </section>
 
-          <form className="space-y-5" onSubmit={isLogin ? handleLogin : handleRegister}>
-            {!isLogin && (
-              <>
-                <Input
-                  label="Nama Lengkap"
-                  value={namaLengkap}
-                  onChange={(event) => setNamaLengkap(event.target.value)}
-                  placeholder="Masukkan nama lengkap"
-                  required
-                />
-                <Input
-                  label="Username"
-                  value={username}
-                  onChange={(event) => setUsername(event.target.value)}
-                  placeholder="Masukkan username"
-                  required
-                />
-                <Select
-                  label="Organisasi"
-                  value={idOrganisasi || ""}
-                  onChange={(event) => setIdOrganisasi(Number(event.target.value))}
-                  required
-                >
-                  <option value="">Pilih organisasi</option>
-                  {organizations.map((organization) => (
-                    <option key={organization.id_organisasi} value={organization.id_organisasi}>
-                      {organization.instansi}
-                    </option>
-                  ))}
-                </Select>
-              </>
+      <section className="flex min-h-screen w-full items-center justify-center p-5 sm:p-10">
+        <div className="w-full max-w-[460px]">
+          <div className="mb-8 flex justify-center lg:hidden">
+            <div className="grid h-28 w-28 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm">
+              <img
+                src={logoSrc}
+                alt="RBR Engine logo"
+                className="h-full w-full scale-[1.45] object-contain"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] sm:p-8">
+            <div className="mb-7 text-center">
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              {isLogin ? "Masuk ke Akun" : "Buat Akun Baru"}
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-slate-500">
+                {isLogin
+                  ? "Gunakan kredensial yang terdaftar di Sistem."
+                  : "Lengkapi data pengguna untuk registrasi."}
+              </p>
+            </div>
+
+            <div className="mb-7 grid grid-cols-2 rounded-xl border border-slate-200 bg-slate-50 p-1">
+              <button
+                type="button"
+                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all ${
+                  isLogin
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-900"
+                }`}
+                onClick={() => switchMode("login")}
+              >
+                <LogIn className="h-4 w-4" />
+                Login
+              </button>
+              <button
+                type="button"
+                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all ${
+                  !isLogin
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-900"
+                }`}
+                onClick={() => switchMode("register")}
+              >
+                <UserPlus className="h-4 w-4" />
+                Daftar
+              </button>
+            </div>
+
+            {message && (
+              <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                {message}
+              </div>
             )}
 
-            <Input
-              label="Email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="nama@organisasi.com"
-              required
-            />
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Masukkan password"
-              required
-            />
+            <form className="space-y-5" onSubmit={isLogin ? handleLogin : handleRegister}>
+              {!isLogin && (
+                <>
+                  <Input
+                    label="Nama Lengkap"
+                    value={namaLengkap}
+                    onChange={(event) => setNamaLengkap(event.target.value)}
+                    placeholder="Masukkan nama lengkap"
+                    required
+                  />
+                  <Input
+                    label="Username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                    placeholder="Masukkan username"
+                    required
+                  />
+                  <Select
+                    label="Organisasi"
+                    value={idOrganisasi || ""}
+                    onChange={(event) => setIdOrganisasi(Number(event.target.value))}
+                    required
+                  >
+                    <option value="">Pilih organisasi</option>
+                    {organizations.map((organization) => (
+                      <option key={organization.id_organisasi} value={organization.id_organisasi}>
+                        {organization.instansi}
+                      </option>
+                    ))}
+                  </Select>
+                </>
+              )}
 
-            <Button type="submit" className="w-full" size="lg" isLoading={loading}>
-              {isLogin ? "Masuk Dashboard" : "Daftar"}
-            </Button>
-          </form>
+              <Input
+                label="Email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="nama@organisasi.com"
+                required
+              />
+              <Input
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Masukkan password"
+                required
+              />
 
-          <div className="mt-6 text-center text-sm text-slate-500">
-            {isLogin ? (
-              <>
-                Belum punya akun?{" "}
-                <button
-                  type="button"
-                  className="font-semibold text-teal-700 hover:text-teal-800"
-                  onClick={() => switchMode("register")}
-                >
-                  Daftar sekarang
-                </button>
-              </>
-            ) : (
-              <>
-                Sudah punya akun?{" "}
-                <button
-                  type="button"
-                  className="font-semibold text-teal-700 hover:text-teal-800"
-                  onClick={() => switchMode("login")}
-                >
-                  Login sekarang
-                </button>
-              </>
-            )}
+              <Button type="submit" className="w-full gap-2 py-3.5" size="lg" isLoading={loading}>
+                {isLogin ? <LogIn className="h-4 w-4" /> : <UserPlus className="h-4 w-4" />}
+                {isLogin ? "Masuk Dashboard" : "Daftar"}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center text-sm text-slate-500">
+              {isLogin ? (
+                <>
+                  Belum punya akun?{" "}
+                  <button
+                    type="button"
+                    className="font-semibold text-teal-700 hover:text-teal-800"
+                    onClick={() => switchMode("register")}
+                  >
+                    Daftar sekarang
+                  </button>
+                </>
+              ) : (
+                <>
+                  Sudah punya akun?{" "}
+                  <button
+                    type="button"
+                    className="font-semibold text-teal-700 hover:text-teal-800"
+                    onClick={() => switchMode("login")}
+                  >
+                    Login sekarang
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </section>
