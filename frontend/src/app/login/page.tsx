@@ -72,7 +72,7 @@ export default function LoginPage() {
   const isLogin = mode === "login";
 
   return (
-    <main className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-[1.03fr_1fr]">
+    <main className="min-h-screen bg-slate-50 lg:grid lg:grid-cols-[1.02fr_1fr]">
       <section className="relative hidden min-h-screen overflow-hidden bg-teal-900 p-10 text-white lg:flex lg:flex-col">
         <div
           className="absolute inset-0 opacity-10"
@@ -82,26 +82,21 @@ export default function LoginPage() {
           }}
         />
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/10 to-transparent" />
+        <div className="absolute inset-y-12 right-0 w-px bg-white/10" />
         <div className="relative z-10 flex flex-1 flex-col justify-between">
-          <div className="flex justify-center pt-8">
-            <div className="grid h-40 w-40 place-items-center overflow-hidden rounded-2xl bg-white/5 shadow-[0_24px_70px_rgba(2,6,23,0.22)]">
+          <div className="flex justify-center pt-10">
+            <div className="grid h-52 w-52 place-items-center overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.06] shadow-[0_28px_80px_rgba(2,6,23,0.25)] backdrop-blur">
               <img
                 src={logoSrc}
                 alt="RBR Engine logo"
-                className="h-full w-full scale-[1.5] object-contain [filter:drop-shadow(0_14px_24px_rgba(2,6,23,0.28))]"
+                className="h-full w-full scale-[1.55] object-contain [filter:drop-shadow(0_16px_26px_rgba(2,6,23,0.3))]"
               />
             </div>
           </div>
 
-          <div className="max-w-xl pb-10">
-            <div className="mb-8 w-64 max-w-full overflow-hidden">
-            <img
-              src={logoSrc}
-              alt="RBR Engine logo"
-              className="h-auto w-full scale-[1.25] object-contain [filter:drop-shadow(0_12px_22px_rgba(2,6,23,0.28))]"
-            />
-          </div>
-            <h1 className="text-5xl font-bold leading-tight tracking-tight">RBR Engine</h1>
+          <div className="max-w-xl pb-8">
+            <div className="mb-6 h-1 w-20 rounded-full bg-teal-100/80" />
+            <h1 className="text-6xl font-bold leading-none tracking-tight">RBR Engine</h1>
             <p className="mt-4 max-w-lg text-xl font-medium leading-8 text-teal-100">
               Sistem konsultasi dan asesmen berbasis aturan
             </p>
@@ -130,10 +125,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_24px_70px_rgba(15,23,42,0.08)] sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-[0_28px_80px_rgba(15,23,42,0.1)] sm:p-8">
             <div className="mb-7 text-center">
               <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-              {isLogin ? "Masuk ke Akun" : "Buat Akun Baru"}
+                {isLogin ? "Masuk ke Akun" : "Buat Akun Baru"}
               </h2>
               <p className="mt-2 text-sm leading-6 text-slate-500">
                 {isLogin
@@ -142,12 +137,12 @@ export default function LoginPage() {
               </p>
             </div>
 
-            <div className="mb-7 grid grid-cols-2 rounded-xl border border-slate-200 bg-slate-50 p-1">
+            <div className="mb-7 grid grid-cols-2 rounded-xl border border-slate-200 bg-slate-50 p-1.5 shadow-inner">
               <button
                 type="button"
-                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all ${
+                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all ${
                   isLogin
-                    ? "bg-white text-slate-900 shadow-sm"
+                    ? "bg-white text-slate-900 shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
                     : "text-slate-500 hover:text-slate-900"
                 }`}
                 onClick={() => switchMode("login")}
@@ -157,9 +152,9 @@ export default function LoginPage() {
               </button>
               <button
                 type="button"
-                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold transition-all ${
+                className={`inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-semibold transition-all ${
                   !isLogin
-                    ? "bg-white text-slate-900 shadow-sm"
+                    ? "bg-white text-slate-900 shadow-[0_8px_18px_rgba(15,23,42,0.08)]"
                     : "text-slate-500 hover:text-slate-900"
                 }`}
                 onClick={() => switchMode("register")}
