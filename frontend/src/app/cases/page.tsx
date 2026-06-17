@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/Card";
 import { Loader } from "@/components/ui/Loader";
 import { Table } from "@/components/ui/Table";
 import { useAuth } from "@/hooks/useAuth";
+import { getErrorMessage } from "@/lib/helper";
 import {
   createCase,
   deleteCase,
@@ -77,6 +78,7 @@ export default function CasesPage() {
   const [historyLoaded, setHistoryLoaded] = useState(false);
   const [historyVisible, setHistoryVisible] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
   const [result, setResult] = useState<CaseItem | null>(null);
   const [variables, setVariables] = useState<Variable[]>([]);
   const isPengguna = user?.role === "PENGGUNA";
@@ -141,6 +143,7 @@ export default function CasesPage() {
     if (!token) return;
 
     setSaving(true);
+    setMessage("");
     try {
       const createdCase = await createCase(form, token);
       const answers = variables.map((variable) => ({
@@ -151,6 +154,8 @@ export default function CasesPage() {
       setResult(createdCase);
       setForm({ ...emptyCase, answers });
       await refreshCases();
+    } catch (error) {
+      setMessage(getErrorMessage(error, "Gagal memproses asesmen"));
     } finally {
       setSaving(false);
     }
@@ -172,6 +177,12 @@ export default function CasesPage() {
             description="Isi data dan jawaban untuk melihat hasil penilaian."
           />
           <CardContent>
+            {message && (
+              <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {message}
+              </div>
+            )}
+
             {variablesLoading ? (
               <Loader />
             ) : (

@@ -96,7 +96,6 @@ export function CaseForm({
                   id={`case_variable_${variable.id_variabel}`}
                   value={getAnswerValue(value, variable.id_variabel)}
                   onChange={(event) => updateAnswer(variable.id_variabel, event.target.value)}
-                  required
                 >
                   <option value="">Pilih jawaban</option>
                   <option value="ya">Ya</option>
@@ -109,7 +108,6 @@ export function CaseForm({
                   value={getAnswerValue(value, variable.id_variabel)}
                   onChange={(event) => updateAnswer(variable.id_variabel, event.target.value)}
                   placeholder="Contoh: 85"
-                  required
                 />
               )}
             </Field>

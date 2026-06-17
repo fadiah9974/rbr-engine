@@ -97,19 +97,45 @@ async function validateCasePayload(req, res) {
   }
 
   const variableWhere = isSuperAdmin(req.user) ? {} : getScopedDataWhere(req);
+  const ruleWhere = isSuperAdmin(req.user) ? {} : getScopedDataWhere(req);
 
-  if (!variableWhere) {
+  if (!variableWhere || !ruleWhere) {
     res.status(400).json({ message: "User belum terhubung dengan organisasi" });
     return null;
   }
 
+  const rules = await prisma.rule.findMany({
+    where: ruleWhere,
+    select: {
+      details: {
+        select: {
+          id_variabel: true,
+        },
+      },
+    },
+  });
+  const requiredVariableIds = new Set(
+    rules.flatMap((rule) =>
+      rule.details.map((detail) => detail.id_variabel)
+    )
+  );
+
   const variables = await prisma.variabel.findMany({
-    where: variableWhere,
+    where: {
+      AND: [
+        variableWhere,
+        {
+          id_variabel: {
+            in: Array.from(requiredVariableIds),
+          },
+        },
+      ],
+    },
     orderBy: { id_variabel: "asc" },
   });
 
-  if (variables.length === 0) {
-    res.status(400).json({ message: "Belum ada variabel untuk dinilai" });
+  if (requiredVariableIds.size > 0 && variables.length === 0) {
+    res.status(400).json({ message: "Belum ada variabel rule untuk dinilai" });
     return null;
   }
 
@@ -121,6 +147,11 @@ async function validateCasePayload(req, res) {
   for (const answer of answers) {
     const idVariabel = Number(answer.id_variabel);
     const nilai = String(answer.nilai ?? "").trim().toLowerCase();
+
+    if (!requiredVariableIds.has(idVariabel)) {
+      continue;
+    }
+
     const variable = variableMap.get(idVariabel);
 
     if (!variable) {
@@ -128,10 +159,7 @@ async function validateCasePayload(req, res) {
       return null;
     }
 
-    if (!nilai) {
-      res.status(400).json({ message: "Semua nilai variabel wajib diisi" });
-      return null;
-    }
+    if (!nilai) continue;
 
     if (variable.tipe_variabel === "boolean" && !["ya", "tidak"].includes(nilai)) {
       res.status(400).json({
