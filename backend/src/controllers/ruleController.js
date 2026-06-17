@@ -126,21 +126,21 @@ async function validateRulePayload(req, res) {
 
     if (variable.tipe_variabel === "boolean" && !["ya", "tidak"].includes(nilai)) {
       res.status(400).json({
-        message: "Nilai untuk variabel Ya/Tidak harus ya atau tidak",
+        message: `Nilai untuk ${variable.nama_variabel} harus ya atau tidak`,
       });
       return null;
     }
 
     if (variable.tipe_variabel === "boolean" && operator !== "equal") {
       res.status(400).json({
-        message: "Variabel Ya/Tidak hanya boleh memakai operator sama dengan",
+        message: `${variable.nama_variabel} hanya boleh memakai operator sama dengan`,
       });
       return null;
     }
 
     if (variable.tipe_variabel === "number" && Number.isNaN(Number(nilai))) {
       res.status(400).json({
-        message: "Nilai untuk variabel score harus berupa angka",
+        message: `Nilai untuk ${variable.nama_variabel} harus berupa angka, tidak boleh ya/tidak`,
       });
       return null;
     }

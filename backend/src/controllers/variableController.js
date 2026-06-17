@@ -18,6 +18,20 @@ const normalizeText = (value) => {
   return value.trim();
 };
 
+function isRuleDetailValidForType(detail, tipeVariabel) {
+  const nilai = String(detail.nilai ?? "").trim().toLowerCase();
+
+  if (tipeVariabel === "boolean") {
+    return detail.operator === "equal" && ["ya", "tidak"].includes(nilai);
+  }
+
+  if (tipeVariabel === "number") {
+    return !Number.isNaN(Number(nilai));
+  }
+
+  return false;
+}
+
 const getFinalOrganizationId = (req, res) => {
   if (isSuperAdmin(req.user)) {
     if (
@@ -307,6 +321,26 @@ exports.updateVariable = async (req, res) => {
       return res.status(409).json({
         message: "Variabel dengan nama tersebut sudah ada",
       });
+    }
+
+    if (existingVariable.tipe_variabel !== tipeVariabel) {
+      const ruleDetails = await prisma.ruleDetail.findMany({
+        where: {
+          id_variabel: idVariabel,
+        },
+      });
+      const hasInvalidRuleDetail = ruleDetails.some(
+        (detail) => !isRuleDetailValidForType(detail, tipeVariabel)
+      );
+
+      if (hasInvalidRuleDetail) {
+        return res.status(400).json({
+          message:
+            tipeVariabel === "number"
+              ? "Variabel tidak bisa diubah menjadi Score karena masih ada rule bernilai Ya/Tidak. Edit atau hapus rule tersebut dulu."
+              : "Variabel tidak bisa diubah menjadi Ya/Tidak karena masih ada rule bernilai score. Edit atau hapus rule tersebut dulu.",
+        });
+      }
     }
 
     const updatedVariable = await prisma.variabel.update({

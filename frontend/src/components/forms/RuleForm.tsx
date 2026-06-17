@@ -18,6 +18,10 @@ function getValueType(variable?: Variable) {
   return "Isi angka score";
 }
 
+function getNumberValue(value: string) {
+  return value && !Number.isNaN(Number(value)) ? value : "";
+}
+
 export function RuleForm({
   categories,
   onChange,
@@ -184,14 +188,21 @@ export function RuleForm({
                       <option value="tidak">Tidak</option>
                     </Select>
                   ) : (
-                    <Input
-                      id={`nilai_${index}`}
-                      type="number"
-                      value={detail.nilai}
-                      onChange={(event) => updateDetailValue(index, event.target.value)}
-                      placeholder="Contoh: 60"
-                      required
-                    />
+                    <div className="grid gap-1">
+                      <Input
+                        id={`nilai_${index}`}
+                        type="number"
+                        value={getNumberValue(detail.nilai)}
+                        onChange={(event) => updateDetailValue(index, event.target.value)}
+                        placeholder="Contoh: 60"
+                        required
+                      />
+                      {detail.nilai && Number.isNaN(Number(detail.nilai)) && (
+                        <span className="text-xs text-red-600">
+                          Nilai score harus angka.
+                        </span>
+                      )}
+                    </div>
                   )}
                 </Field>
 
