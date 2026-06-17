@@ -1,5 +1,6 @@
 const prisma = require("../config/prisma");
 const {
+  getScopedDataWhere,
   getScopedWhere,
   isSuperAdmin,
   requireOrganizationScope,
@@ -33,7 +34,7 @@ function normalizeDetails(details) {
 async function validateRulePayload(req, res) {
   const idKategori = Number(req.body.id_kategori);
   const details = normalizeDetails(req.body.details);
-  const organizationWhere = getScopedWhere(req);
+  const organizationWhere = getScopedDataWhere(req);
 
   if (!organizationWhere) {
     res.status(400).json({
@@ -376,10 +377,6 @@ exports.deleteRule = async (req, res) => {
         id_rule: idRule,
         ...where,
       },
-      include: {
-        cases: true,
-        case_results: true,
-      },
     });
 
     if (!existingRule) {
@@ -388,19 +385,36 @@ exports.deleteRule = async (req, res) => {
       });
     }
 
-    const isRuleUsed =
-      existingRule.cases.length > 0 || existingRule.case_results.length > 0;
-
-    if (isRuleUsed) {
-      return res.status(400).json({
-        message: "Rule tidak bisa dihapus karena masih digunakan oleh case atau hasil case.",
+    await prisma.$transaction(async (tx) => {
+      await tx.case.updateMany({
+        where: {
+          id_rule: idRule,
+        },
+        data: {
+          id_rule: null,
+        },
       });
-    }
 
-    await prisma.rule.delete({
-      where: {
-        id_rule: idRule,
-      },
+      await tx.caseResult.updateMany({
+        where: {
+          id_rule: idRule,
+        },
+        data: {
+          id_rule: null,
+        },
+      });
+
+      await tx.ruleDetail.deleteMany({
+        where: {
+          id_rule: idRule,
+        },
+      });
+
+      await tx.rule.delete({
+        where: {
+          id_rule: idRule,
+        },
+      });
     });
 
     return res.json({

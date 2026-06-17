@@ -1,5 +1,6 @@
 const prisma = require("../config/prisma");
 const {
+  getScopedDataWhere,
   getScopedWhere,
   isSuperAdmin,
   requireOrganizationScope,
@@ -142,7 +143,7 @@ exports.createVariable = async (req, res) => {
 
 exports.getVariables = async (req, res) => {
   try {
-    const where = getScopedWhere(req);
+    const where = getScopedDataWhere(req);
 
     if (!where) {
       return res.status(400).json({
@@ -374,10 +375,6 @@ exports.deleteVariable = async (req, res) => {
         id_variabel: idVariabel,
         ...where,
       },
-      include: {
-        rule_details: true,
-        case_answers: true,
-      },
     });
 
     if (!existingVariable) {
@@ -386,21 +383,24 @@ exports.deleteVariable = async (req, res) => {
       });
     }
 
-    const isVariableUsed =
-      existingVariable.rule_details.length > 0 ||
-      existingVariable.case_answers.length > 0;
-
-    if (isVariableUsed) {
-      return res.status(400).json({
-        message:
-          "Variabel tidak bisa dihapus karena masih digunakan oleh rule atau case answer.",
+    await prisma.$transaction(async (tx) => {
+      await tx.ruleDetail.deleteMany({
+        where: {
+          id_variabel: idVariabel,
+        },
       });
-    }
 
-    await prisma.variabel.delete({
-      where: {
-        id_variabel: idVariabel,
-      },
+      await tx.caseAnswer.deleteMany({
+        where: {
+          id_variabel: idVariabel,
+        },
+      });
+
+      await tx.variabel.delete({
+        where: {
+          id_variabel: idVariabel,
+        },
+      });
     });
 
     return res.json({

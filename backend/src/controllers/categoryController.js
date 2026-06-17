@@ -1,5 +1,6 @@
 const prisma = require("../config/prisma");
 const {
+  getScopedDataWhere,
   getScopedWhere,
   isSuperAdmin,
   requireOrganizationScope,
@@ -99,7 +100,7 @@ exports.createCategory = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
   try {
-    const where = getScopedWhere(req);
+    const where = getScopedDataWhere(req);
 
     if (!where) {
       return res.status(400).json({
@@ -308,9 +309,11 @@ exports.deleteCategory = async (req, res) => {
         ...where,
       },
       include: {
-        rules: true,
-        cases: true,
-        case_results: true,
+        rules: {
+          select: {
+            id_rule: true,
+          },
+        },
       },
     });
 
@@ -320,22 +323,72 @@ exports.deleteCategory = async (req, res) => {
       });
     }
 
-    const isUsed =
-      existingCategory.rules.length > 0 ||
-      existingCategory.cases.length > 0 ||
-      existingCategory.case_results.length > 0;
+    const ruleIds = existingCategory.rules.map((rule) => rule.id_rule);
 
-    if (isUsed) {
-      return res.status(400).json({
-        message:
-          "Kategori tidak bisa dihapus karena masih digunakan oleh rule, case, atau hasil case.",
+    await prisma.$transaction(async (tx) => {
+      await tx.case.updateMany({
+        where: {
+          id_kategori: idKategori,
+        },
+        data: {
+          id_kategori: null,
+        },
       });
-    }
 
-    await prisma.kategori.delete({
-      where: {
-        id_kategori: idKategori,
-      },
+      await tx.caseResult.updateMany({
+        where: {
+          id_kategori: idKategori,
+        },
+        data: {
+          id_kategori: null,
+        },
+      });
+
+      if (ruleIds.length > 0) {
+        await tx.case.updateMany({
+          where: {
+            id_rule: {
+              in: ruleIds,
+            },
+          },
+          data: {
+            id_rule: null,
+          },
+        });
+
+        await tx.caseResult.updateMany({
+          where: {
+            id_rule: {
+              in: ruleIds,
+            },
+          },
+          data: {
+            id_rule: null,
+          },
+        });
+
+        await tx.ruleDetail.deleteMany({
+          where: {
+            id_rule: {
+              in: ruleIds,
+            },
+          },
+        });
+
+        await tx.rule.deleteMany({
+          where: {
+            id_rule: {
+              in: ruleIds,
+            },
+          },
+        });
+      }
+
+      await tx.kategori.delete({
+        where: {
+          id_kategori: idKategori,
+        },
+      });
     });
 
     return res.json({

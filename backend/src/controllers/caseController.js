@@ -1,5 +1,6 @@
 const prisma = require("../config/prisma");
 const {
+  getScopedDataWhere,
   getScopedWhere,
   getUserOrganizationId,
   isSuperAdmin,
@@ -45,6 +46,10 @@ function compareValue(operator, ruleValue, answerValue, variableType) {
 }
 
 function ruleMatchesAnswers(rule, answerMap) {
+  if (!Array.isArray(rule.details) || rule.details.length === 0) {
+    return false;
+  }
+
   return rule.details.every((detail) => {
     const answer = answerMap.get(detail.id_variabel);
 
@@ -91,10 +96,15 @@ async function validateCasePayload(req, res) {
     return null;
   }
 
+  const variableWhere = isSuperAdmin(req.user) ? {} : getScopedDataWhere(req);
+
+  if (!variableWhere) {
+    res.status(400).json({ message: "User belum terhubung dengan organisasi" });
+    return null;
+  }
+
   const variables = await prisma.variabel.findMany({
-    where: isSuperAdmin(req.user)
-      ? {}
-      : getScopedWhere(req),
+    where: variableWhere,
     orderBy: { id_variabel: "asc" },
   });
 
@@ -190,10 +200,16 @@ exports.createCase = async (req, res) => {
   const data = await validateCasePayload(req, res);
   if (!data) return;
 
+  const ruleWhere = isSuperAdmin(req.user) ? {} : getScopedDataWhere(req);
+
+  if (!ruleWhere) {
+    return res.status(400).json({
+      message: "User belum terhubung dengan organisasi",
+    });
+  }
+
   const rules = await prisma.rule.findMany({
-    where: isSuperAdmin(req.user)
-      ? {}
-      : getScopedWhere(req),
+    where: ruleWhere,
     include: {
       kategori: true,
       details: {
@@ -322,10 +338,16 @@ exports.updateCase = async (req, res) => {
   const data = await validateCasePayload(req, res);
   if (!data) return;
 
+  const ruleWhere = isSuperAdmin(req.user) ? {} : getScopedDataWhere(req);
+
+  if (!ruleWhere) {
+    return res.status(400).json({
+      message: "User belum terhubung dengan organisasi",
+    });
+  }
+
   const rules = await prisma.rule.findMany({
-    where: isSuperAdmin(req.user)
-      ? {}
-      : getScopedWhere(req),
+    where: ruleWhere,
     include: {
       kategori: true,
       details: {
